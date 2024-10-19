@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="mrpApp" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRP Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="MrpController">
+    <header>
+        <h1>MRP Calculator</h1>
+        <p>Calculate your Material Requirements Planning</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <form ng-submit="calculateMrp()">
+                <div class="form-group">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" ng-model="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" ng-model="quantity" required min="1">
+                </div>
+                <div class="btn">
+                    <button type="submit" ng-disabled="calculatingMrp">
+                        {{calculatingMrp ? 'Calculating...' : 'Calculate MRP'}}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card results" ng-if="mrpResults.length > 0">
+            <h2>MRP Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part Name</th>
+                        <th>Required Quantity</th>
+                        <th>On Hand Inventory</th>
+                        <th>Net Requirement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="result in mrpResults">
+                        <td>{{result.partName}}</td>
+                        <td>{{result.requiredQuantity}}</td>
+                        <td>{{result.onHandInventory}}</td>
+                        <td>{{result.netRequirement}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="error" ng-if="error">
+            {{error}}
+        </div>
+    </div>
+
+    <script src="app.js"></script> <!-- Link to the external JS file -->
+</body>
+</html>
